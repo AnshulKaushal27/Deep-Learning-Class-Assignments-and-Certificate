@@ -158,11 +158,67 @@ Steps involved:
 
 ---
 
+# Assignment 5: Steel Surface Defect Classification using Transfer Learning
+
+## Objective
+
+Implement and benchmark multiple pretrained CNN architectures for classifying steel surface defects using transfer learning.
+
+## Dataset
+
+NEU Surface Defect Database (NEU-DET)
+
+Dataset Link
+https://www.kaggle.com/datasets/kaustubhdikshit/neu-surface-defect-database
+
+## Description
+
+The NEU-DET dataset contains grayscale images of steel surfaces labeled across 6 defect categories: crazing, inclusion, patches, pitted surface, rolled-in scale, and scratches. Three pretrained CNN models are fine-tuned using transfer learning and evaluated on a held-out validation set.
+
+The neural network architectures used:
+
+| Model | Backbone | Pretrained | Notes |
+|---|---|---|---|
+| ResNet50 | ResNet-50 | ImageNet | Dropout(0.4) + Linear head |
+| GoogLeNet | Inception v1 | ImageNet | Auxiliary classifiers used during training |
+| EfficientNet-B0 | EfficientNet | ImageNet | Dropout(0.3) + Linear head |
+
+Steps involved:
+
+1. Load grayscale images and convert to RGB
+2. Apply data augmentation (flips, rotation, brightness/contrast jitter)
+3. Fine-tune pretrained models with custom classification heads
+4. Train using Adam optimizer and CrossEntropyLoss
+5. Save best model weights based on validation accuracy
+6. Evaluate using classification report (precision, recall, F1-score per class)
+
+Data augmentation applied during training:
+
+* Horizontal flip (p=0.5)
+* Vertical flip (p=0.5)
+* Random rotation ±15°
+* Brightness and contrast jitter
+
+GoogLeNet uses a weighted auxiliary loss during training:
+
+Loss = L_main + 0.3 × L_aux2 + 0.3 × L_aux1
+
+## Technologies Used
+
+* Python
+* NumPy
+* OpenCV (cv2)
+* PyTorch
+* Torchvision
+* Scikit-learn
+
+---
+
 # Requirements
 
 Install the required Python libraries:
 
-pip install numpy pandas scikit-learn
+pip install numpy pandas scikit-learn torch torchvision opencv-python
 
 ---
 
@@ -178,6 +234,7 @@ python perceptron_logic_gates.py
 python logistic_regression_glass.py
 python multiple_linear_regression.py
 python mlp_backpropagation_abalone.py
+python neu_defect_classifier.py
 
 ---
 
@@ -191,6 +248,9 @@ After completing these assignments, the following concepts are understood:
 * Multilayer perceptron architecture
 * Backpropagation algorithm
 * Gradient descent optimization
+* Transfer learning with pretrained CNN models
+* Data augmentation for image classification
+* Multi-model benchmarking and evaluation
 
 ---
 
